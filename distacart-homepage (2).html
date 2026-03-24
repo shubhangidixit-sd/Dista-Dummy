@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distacart — Dista Brings India Closer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --saffron: #F4631A;
+  --ivory: #FAF8F4;
+  --dark: #1A1208;
+  --sand: #EDE6DA;
+  --warm-gray: #8C7B6B;
+  --text: #2A1F12;
+  --border: #E2D9CC;
+  --gold: #D4940A;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--ivory); color: var(--text); overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+
+/* NAV */
+.topbar { background: var(--dark); color: rgba(255,255,255,0.75); text-align: center; font-size: 0.78rem; padding: 9px 16px; letter-spacing: 0.3px; }
+.topbar strong { color: var(--saffron); }
+nav { background: white; border-bottom: 1px solid var(--border); padding: 0 40px; display: flex; align-items: center; gap: 28px; height: 60px; position: sticky; top: 0; z-index: 200; box-shadow: 0 1px 8px rgba(0,0,0,0.06); }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: var(--dark); flex-shrink: 0; letter-spacing: -1px; }
+.nav-logo span { color: var(--saffron); }
+.nav-search { flex: 1; background: var(--sand); border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 16px; font-size: 0.85rem; font-family: 'DM Sans', sans-serif; color: var(--text); outline: none; max-width: 480px; transition: border-color 0.2s; }
+.nav-search:focus { border-color: var(--saffron); }
+.nav-search::placeholder { color: var(--warm-gray); }
+.nav-links { display: flex; list-style: none; gap: 22px; margin-left: auto; }
+.nav-links a { font-size: 0.82rem; font-weight: 500; color: var(--warm-gray); transition: color 0.15s; white-space: nowrap; }
+.nav-links a:hover { color: var(--saffron); }
+.nav-btns { display: flex; gap: 10px; flex-shrink: 0; }
+.btn-outline { border: 1.5px solid var(--border); background: white; padding: 7px 16px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; color: var(--text); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+.btn-outline:hover { border-color: var(--saffron); color: var(--saffron); }
+.btn-fill { border: none; background: var(--saffron); padding: 7px 18px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; color: white; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.15s; }
+.btn-fill:hover { background: #d95510; }
+
+/* UTILS */
+.section { padding: 36px 40px; }
+.section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--dark); }
+.view-all { font-size: 0.8rem; font-weight: 600; color: var(--saffron); border-bottom: 1px solid var(--saffron); padding-bottom: 1px; }
+
+/* PRODUCT CARD (reused) */
+.pcard { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; cursor: pointer; transition: all 0.2s; background: white; }
+.pcard:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); transform: translateY(-2px); border-color: transparent; }
+.pcard-img { height: 150px; display: flex; align-items: center; justify-content: center; font-size: 3rem; position: relative; background: var(--sand); }
+.pcard-discount { position: absolute; top: 8px; left: 8px; background: #E53935; color: white; font-size: 0.63rem; font-weight: 700; padding: 3px 7px; border-radius: 3px; }
+.pcard-body { padding: 11px 12px 13px; }
+.pcard-brand { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.8px; color: var(--warm-gray); font-weight: 600; margin-bottom: 3px; }
+.pcard-name { font-size: 0.8rem; font-weight: 600; color: var(--text); line-height: 1.35; margin-bottom: 5px; }
+.pcard-rating { display: flex; align-items: center; gap: 4px; margin-bottom: 7px; }
+.stars { color: var(--gold); font-size: 0.68rem; }
+.rcount { font-size: 0.66rem; color: var(--warm-gray); }
+.pcard-price { display: flex; align-items: baseline; gap: 6px; }
+.price-now { font-size: 0.95rem; font-weight: 700; color: var(--dark); }
+.price-was { font-size: 0.73rem; color: var(--warm-gray); text-decoration: line-through; }
+.pcard-btn { display: block; width: 100%; background: transparent; border: 1.5px solid var(--border); border-radius: 5px; padding: 7px; font-size: 0.73rem; font-weight: 600; color: var(--text); cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 9px; transition: all 0.15s; text-align: center; }
+.pcard-btn:hover { background: var(--saffron); border-color: var(--saffron); color: white; }
+
+/* CTA BUTTONS */
+.cta-white { display: inline-block; background: white; color: var(--dark); font-size: 0.78rem; font-weight: 700; padding: 8px 18px; border-radius: 5px; width: fit-content; transition: all 0.15s; cursor: pointer; }
+.cta-white:hover { background: var(--saffron); color: white; }
+
+/* ══ GRID 1: HERO BANNER + SIDE THUMBNAIL ══ */
+.grid1 { display: grid; grid-template-columns: 1fr 270px; height: 390px; }
+.hero-main { position: relative; overflow: hidden; background: linear-gradient(120deg, #0F0804, #2A1200); display: flex; align-items: center; padding: 52px 60px; }
+.hero-glow { position: absolute; right: -40px; top: -40px; width: 380px; height: 380px; border-radius: 50%; background: radial-gradient(circle, rgba(244,99,26,0.2) 0%, transparent 70%); pointer-events: none; }
+.hero-badge { display: inline-block; background: rgba(244,99,26,0.18); border: 1px solid rgba(244,99,26,0.35); color: var(--saffron); font-size: 0.67rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 12px; border-radius: 20px; margin-bottom: 18px; }
+.hero-h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: white; line-height: 1.12; margin-bottom: 12px; }
+.hero-h1 em { color: var(--saffron); font-style: italic; }
+.hero-sub { font-size: 0.9rem; color: rgba(255,255,255,0.5); margin-bottom: 24px; line-height: 1.6; max-width: 340px; font-weight: 300; }
+.hero-offers { display: flex; align-items: center; gap: 10px; margin-bottom: 26px; flex-wrap: wrap; }
+.offer-pill { background: var(--saffron); color: white; font-size: 0.75rem; font-weight: 700; padding: 5px 12px; border-radius: 4px; }
+.offer-sep { color: rgba(255,255,255,0.3); font-size: 0.8rem; }
+.offer-tag { border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.65); font-size: 0.73rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; }
+.hero-cta { display: inline-block; background: white; color: var(--dark); padding: 11px 28px; border-radius: 6px; font-size: 0.88rem; font-weight: 700; transition: all 0.2s; }
+.hero-cta:hover { background: var(--saffron); color: white; }
+.hero-dots { position: absolute; bottom: 18px; left: 60px; display: flex; gap: 6px; }
+.dot { width: 22px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.2); }
+.dot.on { background: var(--saffron); }
+.hero-side { background: linear-gradient(160deg,#1B3B1F,#0E2010); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px 22px; position: relative; overflow: hidden; border-left: 1px solid rgba(255,255,255,0.06); cursor: pointer; transition: filter 0.2s; }
+.hero-side:hover { filter: brightness(1.12); }
+.side-emoji { position: absolute; top: 22px; right: 22px; font-size: 3rem; opacity: 0.8; }
+.side-label { font-size: 0.63rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 5px; }
+.side-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: white; line-height: 1.3; margin-bottom: 12px; }
+.side-cta { display: inline-block; background: var(--saffron); color: white; font-size: 0.73rem; font-weight: 700; padding: 6px 13px; border-radius: 4px; width: fit-content; }
+
+/* ══ GRID 2: TABBED PRODUCT COLLECTION ══ */
+.grid2 { background: white; padding: 30px 40px 38px; }
+.tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 24px; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { padding: 9px 18px; font-size: 0.8rem; font-weight: 600; color: var(--warm-gray); cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+.tab.active { color: var(--saffron); border-bottom-color: var(--saffron); }
+.tab:hover:not(.active) { color: var(--text); }
+.products-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.grid2-footer { text-align: center; margin-top: 26px; }
+.view-all-btn { border: 1.5px solid var(--saffron); color: var(--saffron); background: white; padding: 9px 40px; border-radius: 6px; font-size: 0.83rem; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+.view-all-btn:hover { background: var(--saffron); color: white; }
+
+/* ══ GRID 3: 4-THUMBNAIL CAMPAIGN GRID ══
+   Layout: 1 large left (full height) + 1 medium top-right + 2 small bottom-right (side by side)
+   Matches: large hero tile + medium feature + 2 compact tiles
+══ */
+.grid3 { padding: 34px 40px; background: var(--sand); }
+.grid3-meta { font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--saffron); margin-bottom: 5px; }
+.grid3-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--dark); margin-bottom: 18px; }
+.grid3-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+  height: 400px;
+}
+/* Large hero: spans both rows on left */
+.g3-hero {
+  grid-column: 1; grid-row: 1 / 3;
+  border-radius: 14px; overflow: hidden; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 28px; cursor: pointer; transition: filter 0.2s;
+}
+.g3-hero:hover { filter: brightness(1.08); }
+/* Medium tile: top-right, spans full width of right column */
+.g3-med {
+  grid-column: 2; grid-row: 1;
+  border-radius: 12px; overflow: hidden; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 18px; cursor: pointer; transition: filter 0.2s;
+}
+.g3-med:hover { filter: brightness(1.08); }
+/* Bottom-right row: 2 small tiles side by side */
+.g3-bottom {
+  grid-column: 2; grid-row: 2;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.g3-sm {
+  border-radius: 10px; overflow: hidden; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 14px; cursor: pointer; transition: filter 0.2s;
+}
+.g3-sm:hover { filter: brightness(1.08); }
+/* Shared text styles */
+.g3-emoji { position: absolute; top: 12px; right: 12px; font-size: 1.8rem; opacity: 0.85; }
+.g3-hero .g3-emoji { font-size: 3.5rem; top: 20px; }
+.g3-med .g3-emoji { font-size: 2.2rem; }
+.g3-eyebrow { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.55); font-weight: 600; margin-bottom: 3px; }
+.g3-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: white; margin-bottom: 3px; line-height: 1.2; }
+.g3-hero .g3-name { font-size: 1.6rem; margin-bottom: 6px; }
+.g3-med .g3-name { font-size: 1.1rem; margin-bottom: 4px; }
+.g3-desc { font-size: 0.72rem; color: rgba(255,255,255,0.6); margin-bottom: 13px; line-height: 1.4; }
+.g3-sm .g3-name { font-size: 0.85rem; margin-bottom: 2px; }
+.g3-sm .g3-desc { font-size: 0.68rem; margin-bottom: 9px; }
+
+/* ══ GRID 4/6/9/11: CATEGORY INTRO + PRODUCT CARDS ══ */
+.cat-section { padding: 34px 40px; }
+.cat-grid { display: grid; grid-template-columns: 260px 1fr; gap: 14px; }
+.cat-intro { border-radius: 14px; overflow: hidden; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 22px 20px; min-height: 270px; cursor: pointer; transition: filter 0.2s; }
+.cat-intro:hover { filter: brightness(1.08); }
+.cat-emoji { position: absolute; top: 18px; right: 18px; font-size: 3.2rem; opacity: 0.7; }
+.cat-name { font-family: 'Playfair Display', serif; font-size: 1.55rem; font-weight: 700; color: white; margin-bottom: 3px; }
+.cat-sub { font-size: 0.75rem; color: rgba(255,255,255,0.55); margin-bottom: 13px; line-height: 1.5; }
+.cat-link { font-size: 0.75rem; font-weight: 700; color: white; border-bottom: 1px solid rgba(255,255,255,0.5); padding-bottom: 1px; width: fit-content; }
+.cat-products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+/* ══ GRID 7: SCROLLABLE THUMBNAILS ══ */
+.grid7 { padding: 26px 40px; background: var(--sand); }
+.scroll-row { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+.scroll-row::-webkit-scrollbar { display: none; }
+.scroll-card { flex-shrink: 0; width: 170px; height: 105px; border-radius: 12px; display: flex; flex-direction: column; justify-content: flex-end; padding: 13px; cursor: pointer; transition: transform 0.2s; position: relative; overflow: hidden; }
+.scroll-card:hover { transform: translateY(-3px); }
+.scroll-emoji { position: absolute; top: 10px; right: 10px; font-size: 1.7rem; opacity: 0.7; }
+.scroll-name { font-size: 0.78rem; font-weight: 700; color: white; line-height: 1.2; }
+
+/* ══ GRID 5/8/10: 6-BENTO CAMPAIGN GRID (3×2 equal cards) ══ */
+.bento6-wrap { padding: 34px 40px; }
+.bento6 { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 200px); gap: 14px; }
+.b6-card {
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px 22px;
+  background: #E8DEFF;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.b6-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.12); }
+.b6-card-title { font-size: 1rem; font-weight: 700; color: #1A1208; margin-bottom: 3px; line-height: 1.2; }
+.b6-card-sub { font-size: 0.75rem; color: #5A5070; margin-bottom: 14px; font-weight: 400; }
+.b6-shop-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #2563EB;
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  width: fit-content;
+  letter-spacing: 0.3px;
+  transition: background 0.15s;
+}
+.b6-card:hover .b6-shop-btn { background: #1d4ed8; }
+.b6-card-img {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 55%;
+  height: 80%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  font-size: 5rem;
+  line-height: 1;
+  padding-bottom: 4px;
+  opacity: 0.92;
+}
+
+/* ══ GRID 12: 3-BENTO FASHION ══ */
+.bento3-wrap { padding: 34px 40px; }
+.bento3 { display: grid; grid-template-columns: 1.5fr 1fr; grid-template-rows: 220px 220px; gap: 11px; }
+.b3-hero { grid-row: 1/3; border-radius: 15px; overflow: hidden; position: relative; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; transition: filter 0.2s; }
+.b3-hero:hover { filter: brightness(1.08); }
+.b3-hero-emoji { font-size: 5.5rem; position: absolute; top: 30px; left: 50%; transform: translateX(-50%); opacity: 0.75; }
+.b3-eyebrow { font-size: 0.62rem; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 5px; font-weight: 600; }
+.b3-name { font-family: 'Playfair Display', serif; font-size: 1.85rem; font-weight: 700; color: white; margin-bottom: 10px; }
+.b3-sub { border-radius: 11px; overflow: hidden; position: relative; cursor: pointer; display: flex; flex-direction: column; justify-content: flex-end; padding: 18px; transition: filter 0.2s; }
+.b3-sub:hover { filter: brightness(1.1); }
+.b3-sub-emoji { position: absolute; top: 14px; right: 14px; font-size: 2rem; opacity: 0.8; }
+.b3-sub-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: white; margin-bottom: 3px; }
+.b3-sub-sub { font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-bottom: 9px; }
+.b3-cta { font-size: 0.68rem; font-weight: 700; color: white; border-bottom: 1px solid rgba(255,255,255,0.5); padding-bottom: 1px; width: fit-content; }
+
+/* ══ GRID 13: EXPLORE CATEGORIES ══ */
+.explore-wrap { padding: 34px 40px; background: var(--ivory); }
+.explore3 { display: grid; grid-template-columns: 1.5fr 1fr; grid-template-rows: 175px 175px; gap: 11px; }
+
+/* FOOTER */
+footer { background: var(--dark); padding: 50px 40px 30px; }
+.footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 38px; padding-bottom: 38px; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 26px; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: white; letter-spacing: -0.5px; display: block; margin-bottom: 13px; }
+.footer-logo span { color: var(--saffron); }
+.footer-tagline { font-size: 0.8rem; line-height: 1.7; color: rgba(255,255,255,0.32); margin-bottom: 0; }
+.footer-col h4 { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: rgba(255,255,255,0.65); margin-bottom: 14px; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-col ul a { font-size: 0.8rem; color: rgba(255,255,255,0.32); transition: color 0.15s; }
+.footer-col ul a:hover { color: var(--saffron); }
+.footer-bottom { display: flex; justify-content: space-between; font-size: 0.72rem; color: rgba(255,255,255,0.22); }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">🇮🇳 Free shipping on orders above $59 &nbsp;·&nbsp; Use code <strong>INDIA15</strong> for 15% off your first order</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">dista<span>.</span></div>
+  <input class="nav-search" type="text" placeholder="Search 500,000+ Indian products…">
+  <ul class="nav-links">
+    <li><a href="https://www.distacart.com/pages/wellness">Wellness</a></li>
+    <li><a href="https://www.distacart.com/pages/taste-of-india">Food</a></li>
+    <li><a href="https://www.distacart.com/pages/thebeautyspot">Beauty</a></li>
+    <li><a href="https://www.distacart.com/pages/indian-fashion">Fashion</a></li>
+    <li><a href="https://www.distacart.com/pages/offers">Deals</a></li>
+  </ul>
+  <div class="nav-btns">
+    <button class="btn-outline">Sign In</button>
+    <button class="btn-fill">🛒 Cart (0)</button>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 1 — Hero Banner Carousel + Side Thumbnail
+══════════════════════════════════════════════ -->
+<div class="grid1">
+  <div class="hero-main">
+    <div class="hero-glow"></div>
+    <div>
+      <div class="hero-badge">Shipping to 40+ countries</div>
+      <h1 class="hero-h1">India's beauty secrets.<br><em>Delivered worldwide.</em></h1>
+      <p class="hero-sub">Authentic Indian brands, direct from the source. No middlemen. No markup. Just India.</p>
+      <div class="hero-offers">
+        <span class="offer-pill">UPTO 50% OFF</span>
+        <span class="offer-sep">+</span>
+        <span class="offer-tag">15% OFF</span>
+        <span class="offer-sep">+</span>
+        <span class="offer-tag">Free Shipping</span>
+      </div>
+      <a href="https://www.distacart.com/pages/offers" class="hero-cta">Shop the Sale →</a>
+    </div>
+    <div class="hero-dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+  <a href="https://www.distacart.com/collections/sea-buckthorn-juice" class="hero-side">
+    <div class="side-emoji">🫐</div>
+    <div class="side-label">Top Rated</div>
+    <div class="side-name">Sea Buckthorn Vitality Drink</div>
+    <div class="side-cta">Shop Now →</div>
+  </a>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 2 — Tabbed Product Collection
+══════════════════════════════════════════════ -->
+<div class="grid2">
+  <div class="tabs">
+    <div class="tab active">Best Sellers</div>
+    <div class="tab">Beauty &amp; Personal Care</div>
+    <div class="tab">Indian Fashion</div>
+    <div class="tab">Women's Wellness</div>
+    <div class="tab">Hair Care</div>
+    <div class="tab">Sea Buckthorn</div>
+    <div class="tab">Food</div>
+    <div class="tab">Best Bargains</div>
+    <div class="tab">Skin Care</div>
+    <div class="tab">Herbal Drinks</div>
+  </div>
+  <div class="products-row">
+    <div class="pcard">
+      <div class="pcard-img" style="background:linear-gradient(135deg,#1B4332,#52B788);">🌿<span class="pcard-discount">-19%</span></div>
+      <div class="pcard-body"><div class="pcard-brand">Dabur</div><div class="pcard-name">Chyawanprash Special 1kg</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(2,401)</span></div><div class="pcard-price"><span class="price-now">$12.99</span><span class="price-was">$16.00</span></div><button class="pcard-btn">Add to Cart</button></div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-img" style="background:linear-gradient(135deg,#6B2D5E,#C06B9A);">🧴<span class="pcard-discount">-22%</span></div>
+      <div class="pcard-body"><div class="pcard-brand">Pilgrim</div><div class="pcard-name">Vitamin C Face Serum 30ml</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(1,834)</span></div><div class="pcard-price"><span class="price-now">$18.49</span><span class="price-was">$23.00</span></div><button class="pcard-btn">Add to Cart</button></div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-img" style="background:linear-gradient(135deg,#7D3C14,#C0652B);">💆<span class="pcard-discount">-21%</span></div>
+      <div class="pcard-body"><div class="pcard-brand">Parachute</div><div class="pcard-name">Jasmine Hair Oil 300ml</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(4,290)</span></div><div class="pcard-price"><span class="price-now">$9.49</span><span class="price-was">$12.00</span></div><button class="pcard-btn">Add to Cart</button></div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-img" style="background:linear-gradient(135deg,#0F3460,#2E7DD6);">🫐<span class="pcard-discount">-30%</span></div>
+      <div class="pcard-body"><div class="pcard-brand">Rawmest</div><div class="pcard-name">Sea Buckthorn Juice 1L</div><div class="pcard-rating"><span class="stars">★★★★☆</span><span class="rcount">(723)</span></div><div class="pcard-price"><span class="price-now">$14.99</span><span class="price-was">$21.00</span></div><button class="pcard-btn">Add to Cart</button></div>
+    </div>
+    <div class="pcard">
+      <div class="pcard-img" style="background:linear-gradient(135deg,#4A1942,#A0439A);">🍬<span class="pcard-discount">-20%</span></div>
+      <div class="pcard-body"><div class="pcard-brand">Haldiram's</div><div class="pcard-name">Soan Papdi 500g</div><div class="pcard-rating"><span class="stars">★★★★☆</span><span class="rcount">(1,124)</span></div><div class="pcard-price"><span class="price-now">$7.99</span><span class="price-was">$10.00</span></div><button class="pcard-btn">Add to Cart</button></div>
+    </div>
+  </div>
+  <div class="grid2-footer"><button class="view-all-btn">View All Best Sellers →</button></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 3 — 4-Thumbnail Campaign Grid
+     Layout: 1 large hero (left, full height) + 1 medium (top-right) + 2 small (bottom-right)
+══════════════════════════════════════════════ -->
+<div class="grid3">
+  <div class="grid3-meta">Campaign</div>
+  <div class="grid3-title">For All Your Ramadan Needs 🌙</div>
+  <div class="grid3-layout">
+
+    <!-- Tile 1: Large hero — left, full height -->
+    <a href="https://www.distacart.com/pages/eid" class="g3-hero" style="background:linear-gradient(160deg,#1A0A2E,#4A1060);">
+      <div class="g3-emoji">🌙</div>
+      <div class="g3-eyebrow">Eid Special</div>
+      <div class="g3-name">Eid Ready Looks</div>
+      <div class="g3-desc">Traditional fits, modern energy. Sarees, Lehengas, Kurta Sets — all in one place.</div>
+      <span class="cta-white">Shop Eid Fashion →</span>
+    </a>
+
+    <!-- Tile 2: Medium — top right -->
+    <a href="https://www.distacart.com/collections/biryani-kits" class="g3-med" style="background:linear-gradient(140deg,#3D1A00,#8B3A00);">
+      <div class="g3-emoji">🍛</div>
+      <div class="g3-eyebrow">Food</div>
+      <div class="g3-name">Biryani Kits</div>
+      <div class="g3-desc">The real recipe. From the real source.</div>
+      <span class="cta-white" style="font-size:0.72rem;padding:6px 14px;">Shop Now</span>
+    </a>
+
+    <!-- Tiles 3 & 4: Two small — bottom right, side by side -->
+    <div class="g3-bottom">
+      <a href="https://www.distacart.com/collections/premium-dates-dry-fruits" class="g3-sm" style="background:linear-gradient(140deg,#1A3020,#2D6040);">
+        <div class="g3-emoji">🌴</div>
+        <div class="g3-eyebrow">Gifting</div>
+        <div class="g3-name">Dates &amp; Dry Fruits</div>
+        <div class="g3-desc">Premium gifting, straight from India.</div>
+        <span class="cta-white" style="font-size:0.68rem;padding:5px 12px;">Shop Now</span>
+      </a>
+      <a href="https://www.distacart.com/collections/eid-special-collection" class="g3-sm" style="background:linear-gradient(140deg,#1A1040,#3A2080);">
+        <div class="g3-emoji">✨</div>
+        <div class="g3-eyebrow">Beauty</div>
+        <div class="g3-name">Eid Glow-Up</div>
+        <div class="g3-desc">Look your best for Eid.</div>
+        <span class="cta-white" style="font-size:0.68rem;padding:5px 12px;">Shop Now</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 4 — Beauty Intro + Product Cards
+══════════════════════════════════════════════ -->
+<div class="cat-section" style="background:white;">
+  <div class="section-header"><span class="section-title">Beauty &amp; Personal Care</span><a href="https://www.distacart.com/collections/beauty-personal-care" class="view-all">See All →</a></div>
+  <div class="cat-grid">
+    <a href="https://www.distacart.com/pages/thebeautyspot" class="cat-intro" style="background:linear-gradient(160deg,#4A1040,#A03080);">
+      <div class="cat-emoji">💄</div>
+      <div class="cat-name">Beauty</div>
+      <div class="cat-sub">Indian beauty secrets, finally within reach.</div>
+      <span class="cat-link">Explore the Beauty Spot →</span>
+    </a>
+    <div class="cat-products">
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#6B2D5E,#C06B9A);">🧴<span class="pcard-discount">-17%</span></div><div class="pcard-body"><div class="pcard-brand">Reginald Men</div><div class="pcard-name">SPF 50 Sunscreen 100ml</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(602)</span></div><div class="pcard-price"><span class="price-now">$16.99</span><span class="price-was">$20.00</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#2D1B4E,#6B3FAA);">💆<span class="pcard-discount">-25%</span></div><div class="pcard-body"><div class="pcard-brand">BeBodywise</div><div class="pcard-name">Rosemary Hair Growth Serum</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(1,290)</span></div><div class="pcard-price"><span class="price-now">$22.49</span><span class="price-was">$30.00</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#1A2E1A,#40804A);">🌿<span class="pcard-discount">-15%</span></div><div class="pcard-body"><div class="pcard-brand">Wishcare</div><div class="pcard-name">Hair Growth Serum 50ml</div><div class="pcard-rating"><span class="stars">★★★★☆</span><span class="rcount">(887)</span></div><div class="pcard-price"><span class="price-now">$19.99</span><span class="price-was">$23.50</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 5 — 6-Bento (Beauty Campaign) — 3×2 cards
+══════════════════════════════════════════════ -->
+<div class="bento6-wrap" style="background:#F0EBE3;">
+  <div class="section-header"><span class="section-title">The Beauty Spot 💄</span><a href="https://www.distacart.com/pages/thebeautyspot" class="view-all">Explore All →</a></div>
+  <div class="bento6">
+    <a href="https://www.distacart.com/collections/hair-oils" class="b6-card">
+      <div class="b6-card-title">Hair Oils</div><div class="b6-card-sub">Strong hair, daily</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🧴</div>
+    </a>
+    <a href="https://www.distacart.com/collections/skin-care" class="b6-card">
+      <div class="b6-card-title">Sunscreen</div><div class="b6-card-sub">Protect &amp; prevent</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🌞</div>
+    </a>
+    <a href="https://www.distacart.com/collections/body-lotions" class="b6-card">
+      <div class="b6-card-title">Body Care</div><div class="b6-card-sub">Hydrate. Smooth. Glow.</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🧴</div>
+    </a>
+    <a href="https://www.distacart.com/collections/face-pack" class="b6-card">
+      <div class="b6-card-title">Face Packs &amp; Masks</div><div class="b6-card-sub">Detox. Refresh. Glow.</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🪷</div>
+    </a>
+    <a href="https://www.distacart.com/collections/face-serum" class="b6-card">
+      <div class="b6-card-title">Skin Care</div><div class="b6-card-sub">Build better skin</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">💧</div>
+    </a>
+    <a href="https://www.distacart.com/collections/lipstick" class="b6-card">
+      <div class="b6-card-title">Lipsticks &amp; More</div><div class="b6-card-sub">Lips that stand out</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">💄</div>
+    </a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 6 — Wellness Intro + Product Cards
+══════════════════════════════════════════════ -->
+<div class="cat-section" style="background:white;">
+  <div class="section-header"><span class="section-title">Wellness &amp; Ayurveda</span><a href="https://www.distacart.com/collections/wellness" class="view-all">See All →</a></div>
+  <div class="cat-grid">
+    <a href="https://www.distacart.com/pages/wellness" class="cat-intro" style="background:linear-gradient(160deg,#0F2E1A,#2D6040);">
+      <div class="cat-emoji">🌿</div>
+      <div class="cat-name">Wellness</div>
+      <div class="cat-sub">Ayurveda, Homeopathy, Unani — the way your body recognises.</div>
+      <span class="cat-link">Explore Wellness →</span>
+    </a>
+    <div class="cat-products">
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#1B4332,#52B788);">🌿<span class="pcard-discount">-74%</span></div><div class="pcard-body"><div class="pcard-brand">Dabur</div><div class="pcard-name">Chyawanprash 1kg</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(2,401)</span></div><div class="pcard-price"><span class="price-now">$12.99</span><span class="price-was">$49.99</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#2A4A0A,#6AA020);">🫐<span class="pcard-discount">-40%</span></div><div class="pcard-body"><div class="pcard-brand">Patanjali</div><div class="pcard-name">Amla Juice 1L</div><div class="pcard-rating"><span class="stars">★★★★☆</span><span class="rcount">(1,022)</span></div><div class="pcard-price"><span class="price-now">$5.49</span><span class="price-was">$9.00</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#1A2840,#305080);">💊<span class="pcard-discount">-40%</span></div><div class="pcard-body"><div class="pcard-brand">Himalaya</div><div class="pcard-name">Immunity Booster 60 Tabs</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(3,107)</span></div><div class="pcard-price"><span class="price-now">$10.99</span><span class="price-was">$18.00</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 7 — Scrollable Thumbnails: Wellness Concerns
+══════════════════════════════════════════════ -->
+<div class="grid7">
+  <div class="section-header" style="margin-bottom:16px;"><span class="section-title" style="font-size:1.1rem;">Wellness Concerns</span><a href="https://www.distacart.com/collections/wellness" class="view-all">See All →</a></div>
+  <div class="scroll-row">
+    <a href="https://www.distacart.com/collections/immunity-wellness" class="scroll-card" style="background:linear-gradient(140deg,#1B4332,#52B788);"><div class="scroll-emoji">🛡️</div><div class="scroll-name">Immunity Wellness</div></a>
+    <a href="https://www.distacart.com/collections/cough-wellness" class="scroll-card" style="background:linear-gradient(140deg,#1A2840,#305080);"><div class="scroll-emoji">🫁</div><div class="scroll-name">Cough Wellness</div></a>
+    <a href="https://www.distacart.com/collections/pain-relief-wellness" class="scroll-card" style="background:linear-gradient(140deg,#3D1A00,#8B3A00);"><div class="scroll-emoji">💪</div><div class="scroll-name">Pain Relief</div></a>
+    <a href="https://www.distacart.com/collections/womens-wellness" class="scroll-card" style="background:linear-gradient(140deg,#4A1040,#A03080);"><div class="scroll-emoji">🌸</div><div class="scroll-name">Women's Wellness</div></a>
+    <a href="https://www.distacart.com/collections/shilajit" class="scroll-card" style="background:linear-gradient(140deg,#1A1A2E,#404080);"><div class="scroll-emoji">⚡</div><div class="scroll-name">Shilajit &amp; Vitality</div></a>
+    <a href="https://www.distacart.com/collections/herbal-drinks" class="scroll-card" style="background:linear-gradient(140deg,#0F2E1A,#2D6040);"><div class="scroll-emoji">🍵</div><div class="scroll-name">Herbal Drinks</div></a>
+    <a href="https://www.distacart.com/collections/homeopathy-products" class="scroll-card" style="background:linear-gradient(140deg,#2A0820,#5C1840);"><div class="scroll-emoji">💊</div><div class="scroll-name">Homeopathy</div></a>
+    <a href="https://www.distacart.com/collections/ayurvedic-products-online" class="scroll-card" style="background:linear-gradient(140deg,#2A3A0A,#5A8020);"><div class="scroll-emoji">🌿</div><div class="scroll-name">Ayurvedic Products</div></a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 8 — 6-Bento Campaign Grid (Ugadi Special) — 3×2 cards
+══════════════════════════════════════════════ -->
+<div class="bento6-wrap" style="background:var(--ivory);">
+  <div class="section-header"><span class="section-title">Ugadi &amp; Gudi Padwa Special 🪔</span><a href="https://www.distacart.com/collections/available-products" class="view-all">Shop All →</a></div>
+  <div class="bento6">
+    <a href="https://www.distacart.com/collections/indian-sweets" class="b6-card" style="background:#FFF0DB;">
+      <div class="b6-card-title">Indian Sweets</div><div class="b6-card-sub">Taste the celebration</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🍬</div>
+    </a>
+    <a href="https://www.distacart.com/collections/pooja-items" class="b6-card" style="background:#FFF0DB;">
+      <div class="b6-card-title">Pooja Essentials</div><div class="b6-card-sub">Everything for the ritual</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🪔</div>
+    </a>
+    <a href="https://www.distacart.com/collections/women-kurta-and-kurta-sets" class="b6-card" style="background:#FFF0DB;">
+      <div class="b6-card-title">Women's Kurta Sets</div><div class="b6-card-sub">Festive looks. Indian elegance.</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">👗</div>
+    </a>
+    <a href="https://www.distacart.com/collections/dhotis" class="b6-card" style="background:#FFF0DB;">
+      <div class="b6-card-title">Men's Dhotis</div><div class="b6-card-sub">Tradition, worn with pride</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">👘</div>
+    </a>
+    <a href="https://www.distacart.com/collections/masalas-and-spices" class="b6-card" style="background:#FFF0DB;">
+      <div class="b6-card-title">Ugadi Pacchadi</div><div class="b6-card-sub">Spices &amp; festive ingredients</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🌶️</div>
+    </a>
+    <a href="https://www.distacart.com/collections/dista-beauty-choice" class="b6-card" style="background:#FFF0DB;">
+      <div class="b6-card-title">Beauty Glam</div><div class="b6-card-sub">Glow up for the new year</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">💄</div>
+    </a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 9 — Food Intro + Product Cards
+══════════════════════════════════════════════ -->
+<div class="cat-section" style="background:white;">
+  <div class="section-header"><span class="section-title">Food &amp; Grocery</span><a href="https://www.distacart.com/collections/food" class="view-all">See All →</a></div>
+  <div class="cat-grid">
+    <a href="https://www.distacart.com/pages/taste-of-india" class="cat-intro" style="background:linear-gradient(160deg,#3D1A00,#8B3A00);">
+      <div class="cat-emoji">🍛</div>
+      <div class="cat-name">Food</div>
+      <div class="cat-sub">The taste of home. Not a pale imitation of it.</div>
+      <span class="cat-link">Explore Taste of India →</span>
+    </a>
+    <div class="cat-products">
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#4A2000,#A04A00);">🍬<span class="pcard-discount">-20%</span></div><div class="pcard-body"><div class="pcard-brand">Haldiram's</div><div class="pcard-name">Soan Papdi 500g</div><div class="pcard-rating"><span class="stars">★★★★☆</span><span class="rcount">(1,124)</span></div><div class="pcard-price"><span class="price-now">$7.99</span><span class="price-was">$10.00</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#2A1A0A,#604020);">🫙<span class="pcard-discount">-18%</span></div><div class="pcard-body"><div class="pcard-brand">Amul</div><div class="pcard-name">Pure Cow Ghee 1L</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(3,812)</span></div><div class="pcard-price"><span class="price-now">$18.99</span><span class="price-was">$23.00</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#1A300A,#4A7020);">☕<span class="pcard-discount">-15%</span></div><div class="pcard-body"><div class="pcard-brand">Tata</div><div class="pcard-name">Masala Chai 250g</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(2,208)</span></div><div class="pcard-price"><span class="price-now">$9.49</span><span class="price-was">$11.00</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 10 — 6-Bento Campaign (Food) — 3×2 cards
+══════════════════════════════════════════════ -->
+<div class="bento6-wrap" style="background:var(--sand);">
+  <div class="section-header"><span class="section-title">Taste of India 🍛</span><a href="https://www.distacart.com/pages/taste-of-india" class="view-all">Explore All →</a></div>
+  <div class="bento6">
+    <a href="https://www.distacart.com/collections/sweets" class="b6-card" style="background:#FFE8D0;">
+      <div class="b6-card-title">Indian Sweets</div><div class="b6-card-sub">Mithai that tastes like home</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🍮</div>
+    </a>
+    <a href="https://www.distacart.com/collections/masalas-and-spices" class="b6-card" style="background:#FFE8D0;">
+      <div class="b6-card-title">Masalas &amp; Spices</div><div class="b6-card-sub">Flavours your kitchen's missing</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🌶️</div>
+    </a>
+    <a href="https://www.distacart.com/collections/ghee" class="b6-card" style="background:#FFE8D0;">
+      <div class="b6-card-title">Ghee</div><div class="b6-card-sub">The ingredient behind every great meal</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🫙</div>
+    </a>
+    <a href="https://www.distacart.com/collections/indian-snacks" class="b6-card" style="background:#FFE8D0;">
+      <div class="b6-card-title">Indian Snacks</div><div class="b6-card-sub">Dangerously snackable</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🥜</div>
+    </a>
+    <a href="https://www.distacart.com/collections/coffee-and-tea" class="b6-card" style="background:#FFE8D0;">
+      <div class="b6-card-title">Tea &amp; Coffee</div><div class="b6-card-sub">Morning chai, the way it should be</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">☕</div>
+    </a>
+    <a href="https://www.distacart.com/collections/dry-fruits" class="b6-card" style="background:#FFE8D0;">
+      <div class="b6-card-title">Dry Fruits</div><div class="b6-card-sub">Premium gifting staple</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🌰</div>
+    </a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 11 — Fashion Intro + Product Cards
+══════════════════════════════════════════════ -->
+<div class="cat-section" style="background:white;">
+  <div class="section-header"><span class="section-title">Indian Fashion</span><a href="https://www.distacart.com/collections/indian-fashion" class="view-all">See All →</a></div>
+  <div class="cat-grid">
+    <a href="https://www.distacart.com/pages/indian-fashion" class="cat-intro" style="background:linear-gradient(160deg,#0F1E40,#204080);">
+      <div class="cat-emoji">👗</div>
+      <div class="cat-name">Fashion</div>
+      <div class="cat-sub">Sarees, Kurtas, Lehengas — India's finest, to your door.</div>
+      <span class="cat-link">Explore Fashion →</span>
+    </a>
+    <div class="cat-products">
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#2A0830,#6A2080);">👗<span class="pcard-discount">-30%</span></div><div class="pcard-body"><div class="pcard-brand">Libas</div><div class="pcard-name">Cotton Kurta Set (S–XXL)</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(4,012)</span></div><div class="pcard-price"><span class="price-now">$34.99</span><span class="price-was">$49.99</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#1A0A30,#404080);">🪡<span class="pcard-discount">-25%</span></div><div class="pcard-body"><div class="pcard-brand">Utsav Fashion</div><div class="pcard-name">Silk Blend Saree</div><div class="pcard-rating"><span class="stars">★★★★☆</span><span class="rcount">(672)</span></div><div class="pcard-price"><span class="price-now">$59.99</span><span class="price-was">$79.99</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+      <div class="pcard"><div class="pcard-img" style="background:linear-gradient(135deg,#1E1040,#503090);">✨<span class="pcard-discount">-20%</span></div><div class="pcard-body"><div class="pcard-brand">Biba</div><div class="pcard-name">Festive Lehenga Set</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(541)</span></div><div class="pcard-price"><span class="price-now">$89.99</span><span class="price-was">$109.99</span></div><button class="pcard-btn">Add to Cart</button></div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 12 — 3-Bento Fashion Campaign (Eid)
+══════════════════════════════════════════════ -->
+<div class="bento3-wrap" style="background:var(--sand);">
+  <div class="section-header" style="margin-bottom:16px;"><span class="section-title">Eid Fashion 🌙</span><a href="https://www.distacart.com/pages/eid" class="view-all">Shop All →</a></div>
+  <div class="bento3">
+    <a href="https://www.distacart.com/collections/eid-clothes" class="b3-hero" style="background:linear-gradient(160deg,#0A0A1E,#1A1A60);">
+      <div class="b3-hero-emoji">✨</div>
+      <div class="b3-eyebrow">Eid Special</div>
+      <div class="b3-name">Eid Fashion</div>
+      <span class="cta-white" style="font-size:0.85rem;padding:10px 24px;">Shop Women's →</span>
+    </a>
+    <a href="https://www.distacart.com/collections/mens-kurta-kurta-sets" class="b3-sub" style="background:linear-gradient(140deg,#0A1A30,#205080);">
+      <div class="b3-sub-emoji">👔</div>
+      <div class="b3-sub-name">Men's Kurta Sets</div>
+      <div class="b3-sub-sub">Sharp. Traditional. Eid-ready.</div>
+      <div class="b3-cta">Shop →</div>
+    </a>
+    <a href="https://www.distacart.com/collections/kids-clothing" class="b3-sub" style="background:linear-gradient(140deg,#1A0A30,#503080);">
+      <div class="b3-sub-emoji">🧒</div>
+      <div class="b3-sub-name">Kidswear</div>
+      <div class="b3-sub-sub">Little ones. Big style. Same India.</div>
+      <div class="b3-cta">Shop →</div>
+    </a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     GRID 13 — 3-Bento: Explore Other Categories (always last)
+══════════════════════════════════════════════ -->
+<div class="explore-wrap">
+  <div class="section-header" style="margin-bottom:16px;"><span class="section-title">Explore More</span></div>
+  <div class="explore3">
+    <a href="https://www.distacart.com/collections/spirituality" class="b3-hero" style="background:linear-gradient(160deg,#1A0800,#4A2000);">
+      <div class="b3-hero-emoji" style="font-size:4.5rem;top:28px;">🪔</div>
+      <div class="b3-eyebrow">Explore</div>
+      <div class="b3-name" style="font-size:1.6rem;">Spirituality</div>
+      <span class="cta-white" style="font-size:0.8rem;padding:8px 20px;">Shop Pooja Items →</span>
+    </a>
+    <a href="https://www.distacart.com/collections/books" class="b3-sub" style="background:linear-gradient(140deg,#0A1820,#204050);">
+      <div class="b3-sub-emoji">📚</div>
+      <div class="b3-sub-name">Books</div>
+      <div class="b3-sub-sub">Indian wisdom. Delivered worldwide.</div>
+      <div class="b3-cta">Shop →</div>
+    </a>
+    <a href="https://www.distacart.com/collections/baby-and-kids" class="b3-sub" style="background:linear-gradient(140deg,#0A2010,#205030);">
+      <div class="b3-sub-emoji">👶</div>
+      <div class="b3-sub-name">Baby &amp; Kids</div>
+      <div class="b3-sub-sub">Growing up Indian, anywhere.</div>
+      <div class="b3-cta">Shop →</div>
+    </a>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <span class="footer-logo">dista<span>.</span></span>
+      <p class="footer-tagline">Dista brings India closer. Authentic Indian products shipped direct from the source — to 40+ countries worldwide. No middlemen. No markups.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="https://www.distacart.com/pages/wellness">Wellness &amp; Ayurveda</a></li>
+        <li><a href="https://www.distacart.com/pages/taste-of-india">Food &amp; Grocery</a></li>
+        <li><a href="https://www.distacart.com/pages/thebeautyspot">Beauty &amp; Care</a></li>
+        <li><a href="https://www.distacart.com/pages/indian-fashion">Fashion</a></li>
+        <li><a href="https://www.distacart.com/collections/baby-and-kids">Baby &amp; Kids</a></li>
+        <li><a href="https://www.distacart.com/pages/offers">Deals &amp; Offers</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Dista</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Partner with Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Returns Policy</a></li>
+        <li><a href="#">Track Your Order</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 Distacart. All rights reserved.</div>
+    <div>🇮🇳 Made with love. Shipped from India.</div>
+    <div>Privacy · Terms · Cookie Policy</div>
+  </div>
+</footer>
+
+</body>
+</html>
