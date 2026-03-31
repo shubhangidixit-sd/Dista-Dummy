@@ -102,21 +102,58 @@ nav { background: white; border-bottom: 1px solid var(--border); padding: 0 40px
 .view-all-btn { border: 1.5px solid var(--saffron); color: var(--saffron); background: white; padding: 9px 40px; border-radius: 6px; font-size: 0.83rem; font-weight: 700; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
 .view-all-btn:hover { background: var(--saffron); color: white; }
 
-/* ══ GRID 3: 4-THUMBNAIL CAMPAIGN GRID ══ */
+/* ══ GRID 3: 4-THUMBNAIL CAMPAIGN GRID ══
+   Layout: 1 large left (full height) + 1 medium top-right + 2 small bottom-right (side by side)
+   Matches: large hero tile + medium feature + 2 compact tiles
+══ */
 .grid3 { padding: 34px 40px; background: var(--sand); }
 .grid3-meta { font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--saffron); margin-bottom: 5px; }
 .grid3-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--dark); margin-bottom: 18px; }
-.grid3-layout { display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; height: 370px; }
-.g3-hero { grid-row: 1/3; border-radius: 14px; overflow: hidden; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 26px; cursor: pointer; transition: filter 0.2s; }
+.grid3-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 12px;
+  height: 400px;
+}
+/* Large hero: spans both rows on left */
+.g3-hero {
+  grid-column: 1; grid-row: 1 / 3;
+  border-radius: 14px; overflow: hidden; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 28px; cursor: pointer; transition: filter 0.2s;
+}
 .g3-hero:hover { filter: brightness(1.08); }
-.g3-sub { border-radius: 10px; overflow: hidden; position: relative; display: flex; flex-direction: column; justify-content: flex-end; padding: 16px; cursor: pointer; transition: filter 0.2s; }
-.g3-sub:hover { filter: brightness(1.08); }
-.g3-emoji { position: absolute; top: 14px; right: 14px; font-size: 2rem; opacity: 0.85; }
-.g3-hero .g3-emoji { font-size: 3.2rem; top: 22px; }
+/* Medium tile: top-right, spans full width of right column */
+.g3-med {
+  grid-column: 2; grid-row: 1;
+  border-radius: 12px; overflow: hidden; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 18px; cursor: pointer; transition: filter 0.2s;
+}
+.g3-med:hover { filter: brightness(1.08); }
+/* Bottom-right row: 2 small tiles side by side */
+.g3-bottom {
+  grid-column: 2; grid-row: 2;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.g3-sm {
+  border-radius: 10px; overflow: hidden; position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 14px; cursor: pointer; transition: filter 0.2s;
+}
+.g3-sm:hover { filter: brightness(1.08); }
+/* Shared text styles */
+.g3-emoji { position: absolute; top: 12px; right: 12px; font-size: 1.8rem; opacity: 0.85; }
+.g3-hero .g3-emoji { font-size: 3.5rem; top: 20px; }
+.g3-med .g3-emoji { font-size: 2.2rem; }
 .g3-eyebrow { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.55); font-weight: 600; margin-bottom: 3px; }
-.g3-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: white; margin-bottom: 3px; line-height: 1.2; }
-.g3-hero .g3-name { font-size: 1.55rem; margin-bottom: 5px; }
+.g3-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: white; margin-bottom: 3px; line-height: 1.2; }
+.g3-hero .g3-name { font-size: 1.6rem; margin-bottom: 6px; }
+.g3-med .g3-name { font-size: 1.1rem; margin-bottom: 4px; }
 .g3-desc { font-size: 0.72rem; color: rgba(255,255,255,0.6); margin-bottom: 13px; line-height: 1.4; }
+.g3-sm .g3-name { font-size: 0.85rem; margin-bottom: 2px; }
+.g3-sm .g3-desc { font-size: 0.68rem; margin-bottom: 9px; }
 
 /* ══ GRID 4/6/9/11: CATEGORY INTRO + PRODUCT CARDS ══ */
 .cat-section { padding: 34px 40px; }
@@ -221,7 +258,7 @@ footer { background: var(--dark); padding: 50px 40px 30px; }
 <body>
 
 <!-- TOPBAR -->
-<div class="topbar">🇮🇳 Free shipping on orders above $59 &nbsp;·&nbsp; Use code <strong>INDIA15</strong> for 15% off your first order</div>
+<div class="topbar">🌿 World Homeopathy Day Special — <strong>FLAT 20% OFF</strong> all Homeopathy products &nbsp;·&nbsp; Use code <strong>HOMEO20</strong> &nbsp;·&nbsp; Valid Apr 10–16</div>
 
 <!-- NAV -->
 <nav>
@@ -245,28 +282,28 @@ footer { background: var(--dark); padding: 50px 40px 30px; }
      GRID 1 — Hero Banner Carousel + Side Thumbnail
 ══════════════════════════════════════════════ -->
 <div class="grid1">
-  <div class="hero-main">
-    <div class="hero-glow"></div>
+  <div class="hero-main" style="background:linear-gradient(120deg, #0A1628, #1A2E50);">
+    <div class="hero-glow" style="background:radial-gradient(circle, rgba(45,106,79,0.25) 0%, transparent 70%);"></div>
     <div>
-      <div class="hero-badge">Shipping to 40+ countries</div>
-      <h1 class="hero-h1">India's beauty secrets.<br><em>Delivered worldwide.</em></h1>
-      <p class="hero-sub">Authentic Indian brands, direct from the source. No middlemen. No markup. Just India.</p>
+      <div class="hero-badge">🌿 World Homeopathy Day · April 10</div>
+      <h1 class="hero-h1">The remedies you trust.<br><em>Shipped from where they're made.</em></h1>
+      <p class="hero-sub">1,000+ homeopathic products from SBL, Dr. Reckeweg, Schwabe & more — direct from India, no middlemen, no customs headaches.</p>
       <div class="hero-offers">
-        <span class="offer-pill">UPTO 50% OFF</span>
+        <span class="offer-pill">FLAT 20% OFF</span>
         <span class="offer-sep">+</span>
-        <span class="offer-tag">15% OFF</span>
+        <span class="offer-tag">Free Shipping $49+</span>
         <span class="offer-sep">+</span>
-        <span class="offer-tag">Free Shipping</span>
+        <span class="offer-tag">Code: HOMEO20</span>
       </div>
-      <a href="https://www.distacart.com/pages/offers" class="hero-cta">Shop the Sale →</a>
+      <a href="https://www.distacart.com/collections/homeopathy-products" class="hero-cta">Shop All Homeopathy →</a>
     </div>
     <div class="hero-dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
   </div>
-  <a href="https://www.distacart.com/collections/sea-buckthorn-juice" class="hero-side">
-    <div class="side-emoji">🫐</div>
-    <div class="side-label">Top Rated</div>
-    <div class="side-name">Sea Buckthorn Vitality Drink</div>
-    <div class="side-cta">Shop Now →</div>
+  <a href="https://www.distacart.com/collections/sbl-homeopathy" class="hero-side" style="background:linear-gradient(160deg,#1A2040,#2D3380);">
+    <div class="side-emoji">🧪</div>
+    <div class="side-label">Top Brand</div>
+    <div class="side-name">SBL Homeopathy — India's Most Trusted</div>
+    <div class="side-cta">Shop SBL →</div>
   </a>
 </div>
 
@@ -276,71 +313,88 @@ footer { background: var(--dark); padding: 50px 40px 30px; }
 ══════════════════════════════════════════════ -->
 <div class="grid2">
   <div class="tabs">
-    <div class="tab active">Best Sellers</div>
+    <div class="tab active">Homeopathy</div>
+    <div class="tab">Immunity &amp; Wellness</div>
+    <div class="tab">Best Sellers</div>
     <div class="tab">Beauty &amp; Personal Care</div>
-    <div class="tab">Indian Fashion</div>
+    <div class="tab">Ayurvedic Products</div>
     <div class="tab">Women's Wellness</div>
-    <div class="tab">Hair Care</div>
-    <div class="tab">Sea Buckthorn</div>
     <div class="tab">Food</div>
+    <div class="tab">Indian Fashion</div>
     <div class="tab">Best Bargains</div>
-    <div class="tab">Skin Care</div>
     <div class="tab">Herbal Drinks</div>
   </div>
   <div class="products-row">
     <div class="pcard">
-      <div class="pcard-img" style="background:linear-gradient(135deg,#1B4332,#52B788);">🌿<span class="pcard-discount">-19%</span></div>
-      <div class="pcard-body"><div class="pcard-brand">Dabur</div><div class="pcard-name">Chyawanprash Special 1kg</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(2,401)</span></div><div class="pcard-price"><span class="price-now">$12.99</span><span class="price-was">$16.00</span></div><button class="pcard-btn">Add to Cart</button></div>
+      <div class="pcard-img" style="background:linear-gradient(135deg,#1A2040,#3A4090);">🧪<span class="pcard-discount">-33%</span></div>
+      <div class="pcard-body"><div class="pcard-brand">SBL Homeopathy</div><div class="pcard-name">Influenzinum Dilution 30ml</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(1,204)</span></div><div class="pcard-price"><span class="price-now">$6.39</span><span class="price-was">$9.68</span></div><button class="pcard-btn">Add to Cart</button></div>
     </div>
     <div class="pcard">
-      <div class="pcard-img" style="background:linear-gradient(135deg,#6B2D5E,#C06B9A);">🧴<span class="pcard-discount">-22%</span></div>
-      <div class="pcard-body"><div class="pcard-brand">Pilgrim</div><div class="pcard-name">Vitamin C Face Serum 30ml</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(1,834)</span></div><div class="pcard-price"><span class="price-now">$18.49</span><span class="price-was">$23.00</span></div><button class="pcard-btn">Add to Cart</button></div>
+      <div class="pcard-img" style="background:linear-gradient(135deg,#004D40,#00796B);">💊<span class="pcard-discount">-37%</span></div>
+      <div class="pcard-body"><div class="pcard-brand">Dr. Reckeweg</div><div class="pcard-name">R73 Joint Pain Drops 22ml</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(2,340)</span></div><div class="pcard-price"><span class="price-now">$9.99</span><span class="price-was">$15.80</span></div><button class="pcard-btn">Add to Cart</button></div>
     </div>
     <div class="pcard">
-      <div class="pcard-img" style="background:linear-gradient(135deg,#7D3C14,#C0652B);">💆<span class="pcard-discount">-21%</span></div>
-      <div class="pcard-body"><div class="pcard-brand">Parachute</div><div class="pcard-name">Jasmine Hair Oil 300ml</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(4,290)</span></div><div class="pcard-price"><span class="price-now">$9.49</span><span class="price-was">$12.00</span></div><button class="pcard-btn">Add to Cart</button></div>
+      <div class="pcard-img" style="background:linear-gradient(135deg,#1B3B1F,#2D6A4F);">🌿<span class="pcard-discount">-25%</span></div>
+      <div class="pcard-body"><div class="pcard-brand">Dr. Schwabe</div><div class="pcard-name">Alpha-CF Cold &amp; Flu Tablets</div><div class="pcard-rating"><span class="stars">★★★★☆</span><span class="rcount">(987)</span></div><div class="pcard-price"><span class="price-now">$8.49</span><span class="price-was">$11.30</span></div><button class="pcard-btn">Add to Cart</button></div>
     </div>
     <div class="pcard">
-      <div class="pcard-img" style="background:linear-gradient(135deg,#0F3460,#2E7DD6);">🫐<span class="pcard-discount">-30%</span></div>
-      <div class="pcard-body"><div class="pcard-brand">Rawmest</div><div class="pcard-name">Sea Buckthorn Juice 1L</div><div class="pcard-rating"><span class="stars">★★★★☆</span><span class="rcount">(723)</span></div><div class="pcard-price"><span class="price-now">$14.99</span><span class="price-was">$21.00</span></div><button class="pcard-btn">Add to Cart</button></div>
+      <div class="pcard-img" style="background:linear-gradient(135deg,#311B92,#7C4DFF);">🧴<span class="pcard-discount">-30%</span></div>
+      <div class="pcard-body"><div class="pcard-brand">Adel Homeopathy</div><div class="pcard-name">Rhus Tox Dilution 30ml</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(756)</span></div><div class="pcard-price"><span class="price-now">$7.47</span><span class="price-was">$11.30</span></div><button class="pcard-btn">Add to Cart</button></div>
     </div>
     <div class="pcard">
-      <div class="pcard-img" style="background:linear-gradient(135deg,#4A1942,#A0439A);">🍬<span class="pcard-discount">-20%</span></div>
-      <div class="pcard-body"><div class="pcard-brand">Haldiram's</div><div class="pcard-name">Soan Papdi 500g</div><div class="pcard-rating"><span class="stars">★★★★☆</span><span class="rcount">(1,124)</span></div><div class="pcard-price"><span class="price-now">$7.99</span><span class="price-was">$10.00</span></div><button class="pcard-btn">Add to Cart</button></div>
+      <div class="pcard-img" style="background:linear-gradient(135deg,#0D3340,#1A6680);">💧<span class="pcard-discount">-28%</span></div>
+      <div class="pcard-body"><div class="pcard-brand">SBL Homeopathy</div><div class="pcard-name">Bio-Combination 25 Tablets</div><div class="pcard-rating"><span class="stars">★★★★★</span><span class="rcount">(1,890)</span></div><div class="pcard-price"><span class="price-now">$5.99</span><span class="price-was">$8.30</span></div><button class="pcard-btn">Add to Cart</button></div>
     </div>
   </div>
-  <div class="grid2-footer"><button class="view-all-btn">View All Best Sellers →</button></div>
+  <div class="grid2-footer"><button class="view-all-btn">View All Homeopathy Products →</button></div>
 </div>
 
 
 <!-- ══════════════════════════════════════════════
      GRID 3 — 4-Thumbnail Campaign Grid
+     Layout: 1 large hero (left, full height) + 1 medium (top-right) + 2 small (bottom-right)
 ══════════════════════════════════════════════ -->
 <div class="grid3">
-  <div class="grid3-meta">Campaign</div>
-  <div class="grid3-title">For All Your Ramadan Needs 🌙</div>
+  <div class="grid3-meta">World Homeopathy Day · April 10</div>
+  <div class="grid3-title">Heal the Natural Way 🌿</div>
   <div class="grid3-layout">
-    <a href="https://www.distacart.com/pages/eid" class="g3-hero" style="background:linear-gradient(160deg,#1A0A2E,#4A1060);">
-      <div class="g3-emoji">🌙</div>
-      <div class="g3-eyebrow">Eid Special</div>
-      <div class="g3-name">Eid Ready Looks</div>
-      <div class="g3-desc">Traditional fits, modern energy. Sarees, Lehengas, Kurta Sets — all in one place.</div>
-      <span class="cta-white">Shop Eid Fashion →</span>
+
+    <!-- Tile 1: Large hero — left, full height -->
+    <a href="https://www.distacart.com/collections/homeopathy-products" class="g3-hero" style="background:linear-gradient(160deg,#0A1628,#1A3B60);">
+      <div class="g3-emoji">🌿</div>
+      <div class="g3-eyebrow">Homeopathy</div>
+      <div class="g3-name">India's Healing Tradition, Delivered</div>
+      <div class="g3-desc">1,000+ remedies from SBL, Dr. Reckeweg, Schwabe & more. Trusted by 200M+ people worldwide.</div>
+      <span class="cta-white">Shop All Homeopathy →</span>
     </a>
-    <a href="https://www.distacart.com/collections/biryani-kits" class="g3-sub" style="background:linear-gradient(140deg,#3D1A00,#8B3A00);">
-      <div class="g3-emoji">🍛</div>
-      <div class="g3-eyebrow">Food</div>
-      <div class="g3-name">Biryani Kits</div>
-      <div class="g3-desc">The real recipe. From the real source.</div>
+
+    <!-- Tile 2: Medium — top right -->
+    <a href="https://www.distacart.com/collections/immunity-wellness" class="g3-med" style="background:linear-gradient(140deg,#1B3B1F,#2D6A4F);">
+      <div class="g3-emoji">🛡️</div>
+      <div class="g3-eyebrow">Wellness</div>
+      <div class="g3-name">Immunity &amp; Wellness</div>
+      <div class="g3-desc">Build your family's defence — naturally.</div>
       <span class="cta-white" style="font-size:0.72rem;padding:6px 14px;">Shop Now</span>
     </a>
-    <a href="https://www.distacart.com/collections/premium-dates-dry-fruits" class="g3-sub" style="background:linear-gradient(140deg,#1A3020,#2D6040);">
-      <div class="g3-emoji">🌴</div>
-      <div class="g3-eyebrow">Gifting</div>
-      <div class="g3-name">Dates &amp; Dry Fruits</div>
-      <div class="g3-desc">Premium gifting, straight from the source.</div>
-      <span class="cta-white" style="font-size:0.72rem;padding:6px 14px;">Shop Now</span>
-    </a>
+
+    <!-- Tiles 3 & 4: Two small — bottom right, side by side -->
+    <div class="g3-bottom">
+      <a href="https://www.distacart.com/collections/ayurvedic-products-online" class="g3-sm" style="background:linear-gradient(140deg,#2A1A0A,#6A4020);">
+        <div class="g3-emoji">🪷</div>
+        <div class="g3-eyebrow">Ayurveda</div>
+        <div class="g3-name">Ayurvedic Products</div>
+        <div class="g3-desc">Ancient wisdom, modern wellness.</div>
+        <span class="cta-white" style="font-size:0.68rem;padding:5px 12px;">Shop Now</span>
+      </a>
+      <a href="https://www.distacart.com/collections/herbal-drinks" class="g3-sm" style="background:linear-gradient(140deg,#0A2818,#1A5030);">
+        <div class="g3-emoji">🍵</div>
+        <div class="g3-eyebrow">Drinks</div>
+        <div class="g3-name">Herbal Drinks</div>
+        <div class="g3-desc">Daily wellness in every sip.</div>
+        <span class="cta-white" style="font-size:0.68rem;padding:5px 12px;">Shop Now</span>
+      </a>
+    </div>
+
   </div>
 </div>
 
@@ -425,16 +479,18 @@ footer { background: var(--dark); padding: 50px 40px 30px; }
      GRID 7 — Scrollable Thumbnails: Wellness Concerns
 ══════════════════════════════════════════════ -->
 <div class="grid7">
-  <div class="section-header" style="margin-bottom:16px;"><span class="section-title" style="font-size:1.1rem;">Wellness Concerns</span><a href="https://www.distacart.com/collections/wellness" class="view-all">See All →</a></div>
+  <div class="section-header" style="margin-bottom:16px;"><span class="section-title" style="font-size:1.1rem;">Homeopathy by Concern</span><a href="https://www.distacart.com/collections/homeopathy-products" class="view-all">See All →</a></div>
   <div class="scroll-row">
-    <a href="https://www.distacart.com/collections/immunity-wellness" class="scroll-card" style="background:linear-gradient(140deg,#1B4332,#52B788);"><div class="scroll-emoji">🛡️</div><div class="scroll-name">Immunity Wellness</div></a>
-    <a href="https://www.distacart.com/collections/cough-wellness" class="scroll-card" style="background:linear-gradient(140deg,#1A2840,#305080);"><div class="scroll-emoji">🫁</div><div class="scroll-name">Cough Wellness</div></a>
-    <a href="https://www.distacart.com/collections/pain-relief-wellness" class="scroll-card" style="background:linear-gradient(140deg,#3D1A00,#8B3A00);"><div class="scroll-emoji">💪</div><div class="scroll-name">Pain Relief</div></a>
-    <a href="https://www.distacart.com/collections/womens-wellness" class="scroll-card" style="background:linear-gradient(140deg,#4A1040,#A03080);"><div class="scroll-emoji">🌸</div><div class="scroll-name">Women's Wellness</div></a>
-    <a href="https://www.distacart.com/collections/shilajit" class="scroll-card" style="background:linear-gradient(140deg,#1A1A2E,#404080);"><div class="scroll-emoji">⚡</div><div class="scroll-name">Shilajit &amp; Vitality</div></a>
-    <a href="https://www.distacart.com/collections/herbal-drinks" class="scroll-card" style="background:linear-gradient(140deg,#0F2E1A,#2D6040);"><div class="scroll-emoji">🍵</div><div class="scroll-name">Herbal Drinks</div></a>
-    <a href="https://www.distacart.com/collections/homeopathy-products" class="scroll-card" style="background:linear-gradient(140deg,#2A0820,#5C1840);"><div class="scroll-emoji">💊</div><div class="scroll-name">Homeopathy</div></a>
-    <a href="https://www.distacart.com/collections/ayurvedic-products-online" class="scroll-card" style="background:linear-gradient(140deg,#2A3A0A,#5A8020);"><div class="scroll-emoji">🌿</div><div class="scroll-name">Ayurvedic Products</div></a>
+    <a href="https://www.distacart.com/collections/immunity-wellness" class="scroll-card" style="background:linear-gradient(140deg,#1B4332,#52B788);"><div class="scroll-emoji">🛡️</div><div class="scroll-name">Immunity &amp; Wellness</div></a>
+    <a href="https://www.distacart.com/collections/cough-wellness" class="scroll-card" style="background:linear-gradient(140deg,#1A2840,#305080);"><div class="scroll-emoji">🫁</div><div class="scroll-name">Cough &amp; Cold</div></a>
+    <a href="https://www.distacart.com/collections/pain-relief-wellness" class="scroll-card" style="background:linear-gradient(140deg,#3D1A00,#8B3A00);"><div class="scroll-emoji">🦴</div><div class="scroll-name">Pain &amp; Joint Relief</div></a>
+    <a href="https://www.distacart.com/collections/homeopathy-products" class="scroll-card" style="background:linear-gradient(140deg,#2A1A0A,#6A4020);"><div class="scroll-emoji">🧠</div><div class="scroll-name">Stress &amp; Anxiety</div></a>
+    <a href="https://www.distacart.com/collections/womens-wellness" class="scroll-card" style="background:linear-gradient(140deg,#4A1040,#A03080);"><div class="scroll-emoji">🌸</div><div class="scroll-name">Women's Health</div></a>
+    <a href="https://www.distacart.com/collections/homeopathy-products" class="scroll-card" style="background:linear-gradient(140deg,#1A1A2E,#404080);"><div class="scroll-emoji">🧒</div><div class="scroll-name">Children's Health</div></a>
+    <a href="https://www.distacart.com/collections/homeopathy-products" class="scroll-card" style="background:linear-gradient(140deg,#0F2E1A,#2D6040);"><div class="scroll-emoji">🌾</div><div class="scroll-name">Allergies &amp; Sinus</div></a>
+    <a href="https://www.distacart.com/collections/homeopathy-products" class="scroll-card" style="background:linear-gradient(140deg,#2A0820,#5C1840);"><div class="scroll-emoji">💆</div><div class="scroll-name">Skin &amp; Hair</div></a>
+    <a href="https://www.distacart.com/collections/homeopathy-products" class="scroll-card" style="background:linear-gradient(140deg,#0D3340,#1A6680);"><div class="scroll-emoji">🍃</div><div class="scroll-name">Digestive Health</div></a>
+    <a href="https://www.distacart.com/collections/immunity-booster-supplements" class="scroll-card" style="background:linear-gradient(140deg,#2A3A0A,#5A8020);"><div class="scroll-emoji">⚡</div><div class="scroll-name">General Tonics</div></a>
   </div>
 </div>
 
@@ -443,31 +499,31 @@ footer { background: var(--dark); padding: 50px 40px 30px; }
      GRID 8 — 6-Bento Campaign Grid (Ugadi Special) — 3×2 cards
 ══════════════════════════════════════════════ -->
 <div class="bento6-wrap" style="background:var(--ivory);">
-  <div class="section-header"><span class="section-title">Ugadi &amp; Gudi Padwa Special 🪔</span><a href="https://www.distacart.com/collections/available-products" class="view-all">Shop All →</a></div>
+  <div class="section-header"><span class="section-title">World Homeopathy Day 🌿</span><a href="https://www.distacart.com/collections/homeopathy-products" class="view-all">Shop All →</a></div>
   <div class="bento6">
-    <a href="https://www.distacart.com/collections/indian-sweets" class="b6-card" style="background:#FFF0DB;">
-      <div class="b6-card-title">Indian Sweets</div><div class="b6-card-sub">Taste the celebration</div>
-      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🍬</div>
+    <a href="https://www.distacart.com/collections/sbl-homeopathy" class="b6-card" style="background:#E8F0FE;">
+      <div class="b6-card-title">SBL Homeopathy</div><div class="b6-card-sub">India's most trusted name</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🧪</div>
     </a>
-    <a href="https://www.distacart.com/collections/pooja-items" class="b6-card" style="background:#FFF0DB;">
-      <div class="b6-card-title">Pooja Essentials</div><div class="b6-card-sub">Everything for the ritual</div>
-      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🪔</div>
+    <a href="https://www.distacart.com/collections/dr-reckeweg" class="b6-card" style="background:#E0F2F1;">
+      <div class="b6-card-title">Dr. Reckeweg</div><div class="b6-card-sub">German precision, Indian availability</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">💊</div>
     </a>
-    <a href="https://www.distacart.com/collections/women-kurta-and-kurta-sets" class="b6-card" style="background:#FFF0DB;">
-      <div class="b6-card-title">Women's Kurta Sets</div><div class="b6-card-sub">Festive looks. Indian elegance.</div>
-      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">👗</div>
+    <a href="https://www.distacart.com/collections/dr-willmar-schwabe-india" class="b6-card" style="background:#F3E5F5;">
+      <div class="b6-card-title">Dr. Schwabe India</div><div class="b6-card-sub">150+ years of homeopathic science</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🌿</div>
     </a>
-    <a href="https://www.distacart.com/collections/dhotis" class="b6-card" style="background:#FFF0DB;">
-      <div class="b6-card-title">Men's Dhotis</div><div class="b6-card-sub">Tradition, worn with pride</div>
-      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">👘</div>
+    <a href="https://www.distacart.com/collections/adel-homeopathy" class="b6-card" style="background:#FFF3E0;">
+      <div class="b6-card-title">Adel Homeopathy</div><div class="b6-card-sub">German remedies for everyday health</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">💧</div>
     </a>
-    <a href="https://www.distacart.com/collections/masalas-and-spices" class="b6-card" style="background:#FFF0DB;">
-      <div class="b6-card-title">Ugadi Pacchadi</div><div class="b6-card-sub">Spices &amp; festive ingredients</div>
-      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🌶️</div>
+    <a href="https://www.distacart.com/collections/allen-homeopathy" class="b6-card" style="background:#E8F5E9;">
+      <div class="b6-card-title">Allen Homeopathy</div><div class="b6-card-sub">Classic Indian formulations</div>
+      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">🍃</div>
     </a>
-    <a href="https://www.distacart.com/collections/dista-beauty-choice" class="b6-card" style="background:#FFF0DB;">
-      <div class="b6-card-title">Beauty Glam</div><div class="b6-card-sub">Glow up for the new year</div>
-      <div class="b6-shop-btn">SHOP NOW</div><div class="b6-card-img">💄</div>
+    <a href="https://www.distacart.com/collections/homeopathy-medicines" class="b6-card" style="background:#E3F2FD;">
+      <div class="b6-card-title">All Homeopathy</div><div class="b6-card-sub">Dilutions, tinctures, biochemics &amp; more</div>
+      <div class="b6-shop-btn">SHOP ALL</div><div class="b6-card-img">🏥</div>
     </a>
   </div>
 </div>
@@ -553,24 +609,24 @@ footer { background: var(--dark); padding: 50px 40px 30px; }
      GRID 12 — 3-Bento Fashion Campaign (Eid)
 ══════════════════════════════════════════════ -->
 <div class="bento3-wrap" style="background:var(--sand);">
-  <div class="section-header" style="margin-bottom:16px;"><span class="section-title">Eid Fashion 🌙</span><a href="https://www.distacart.com/pages/eid" class="view-all">Shop All →</a></div>
+  <div class="section-header" style="margin-bottom:16px;"><span class="section-title">Holistic Wellness 🌿</span><a href="https://www.distacart.com/collections/wellness" class="view-all">Shop All →</a></div>
   <div class="bento3">
-    <a href="https://www.distacart.com/collections/eid-clothes" class="b3-hero" style="background:linear-gradient(160deg,#0A0A1E,#1A1A60);">
-      <div class="b3-hero-emoji">✨</div>
-      <div class="b3-eyebrow">Eid Special</div>
-      <div class="b3-name">Eid Fashion</div>
-      <span class="cta-white" style="font-size:0.85rem;padding:10px 24px;">Shop Women's →</span>
+    <a href="https://www.distacart.com/collections/homeopathy-products" class="b3-hero" style="background:linear-gradient(160deg,#0A1628,#1A3B60);">
+      <div class="b3-hero-emoji">🌿</div>
+      <div class="b3-eyebrow">Homeopathy</div>
+      <div class="b3-name">Homeopathy</div>
+      <span class="cta-white" style="font-size:0.85rem;padding:10px 24px;">Shop Homeopathy →</span>
     </a>
-    <a href="https://www.distacart.com/collections/mens-kurta-kurta-sets" class="b3-sub" style="background:linear-gradient(140deg,#0A1A30,#205080);">
-      <div class="b3-sub-emoji">👔</div>
-      <div class="b3-sub-name">Men's Kurta Sets</div>
-      <div class="b3-sub-sub">Sharp. Traditional. Eid-ready.</div>
+    <a href="https://www.distacart.com/collections/ayurvedic-products-online" class="b3-sub" style="background:linear-gradient(140deg,#1B3B1F,#2D6A4F);">
+      <div class="b3-sub-emoji">🪷</div>
+      <div class="b3-sub-name">Ayurvedic Products</div>
+      <div class="b3-sub-sub">Ancient wisdom. Modern wellness.</div>
       <div class="b3-cta">Shop →</div>
     </a>
-    <a href="https://www.distacart.com/collections/kids-clothing" class="b3-sub" style="background:linear-gradient(140deg,#1A0A30,#503080);">
-      <div class="b3-sub-emoji">🧒</div>
-      <div class="b3-sub-name">Kidswear</div>
-      <div class="b3-sub-sub">Little ones. Big style. Same India.</div>
+    <a href="https://www.distacart.com/collections/unani-products" class="b3-sub" style="background:linear-gradient(140deg,#2A1A0A,#6A4020);">
+      <div class="b3-sub-emoji">🏺</div>
+      <div class="b3-sub-name">Unani Products</div>
+      <div class="b3-sub-sub">India's third wellness tradition.</div>
       <div class="b3-cta">Shop →</div>
     </a>
   </div>
